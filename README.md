@@ -2,6 +2,8 @@
 
 This project is a Proof of Concept (PoC) for an animated hamburger button built with React, styled-components, and react-spring. The button is designed to be accessible, responsive, and animated using react-spring.
 
+![ezgif-7-3b130e64c8](https://github.com/user-attachments/assets/8952f555-e4fb-4253-a062-0d17e42ab8f1)
+
 ## Features
 
 ### Accessibility
