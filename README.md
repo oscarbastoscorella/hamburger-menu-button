@@ -1,50 +1,68 @@
 # Animated Hamburger Button - PoC
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a Proof of Concept (PoC) for an animated hamburger button built with React, styled-components, and react-spring. The button is designed to be accessible, responsive, and animated using react-spring.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Accessibility
 
-## Expanding the ESLint configuration
+- **Keyboard Navigation**: The hamburger button can be toggled using the keyboard. It is focusable and includes a focus outline for better visibility.
+- **ARIA Attributes**: The button includes ARIA attributes to improve accessibility for screen readers.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Animations
 
-- Configure the top-level `parserOptions` property like this:
+- **React Spring**: The button uses react-spring for smooth animations. The lines of the hamburger button animate to form an "X" when toggled.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
+### Responsiveness
+
+- **Responsive Design**: The button is designed to be responsive and can be customized with different sizes and stroke widths.
+
+### Prerequisites
+
+- Node.js (version 16.x or higher recommended)
+- Yarn (version 1.22.x or higher recommended)
+
+### Installation
+
+1. Clone the repository:
+
+   ```sh
+   git clone https://github.com/oscarbastoscorella/hamburger-menu-button
+   cd animated-dialog-netflix
+   ```
+
+2. Install the dependencies:
+
+   ```sh
+   yarn install
+   ```
+
+### Running the Project
+
+To start the development server:
+
+```sh
+yarn dev
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+To build the project for production:
 
-```js
-// eslint.config.js
-import react from "eslint-plugin-react";
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: "18.3" } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs["jsx-runtime"].rules,
-  },
-});
+```sh
+yarn build
 ```
+
+To preview the production build:
+
+```sh
+yarn preview
+```
+
+To lint the code:
+
+```sh
+yarn lint
+```
+
+## Author
+
+- **Oscar Bastos** - [GitHub](https://github.com/oscarbastoscorella)
