@@ -3,63 +3,77 @@ import styled from "styled-components";
 import useToggle from "../hooks/useToggle";
 import { useSpring, animated, config } from "react-spring";
 
-export default function HamburgerMenu({ size = 100, strokeWidth = 5 }) {
-  const ref = useRef();
+type HamburgerMenuProps = {
+  size?: number;
+  strokeWidth?: number;
+};
+
+export default function HamburgerMenu({
+  size = 100,
+  strokeWidth = 5,
+}: HamburgerMenuProps) {
+  const ref = useRef<HTMLDivElement>(null);
   const [isOpen, toggleIsOpen] = useToggle(true);
 
-  const [{ opacity, rotate, y }, spring] = useSpring(() => ({
-    rotate: "0deg",
-    y: "0px",
-    opacity: 1,
-    config: config.stiff,
-  }));
+  const [{ rotate, y, opacity }, spring] = useSpring(() => springConfig);
 
-  function calculateLineOffsetY(height, strokeWidth) {
-    if (!height || !strokeWidth) return;
-    const lineOffsetY = height / 2 - strokeWidth / 2;
-    return `${lineOffsetY}px`;
-  }
+  const calculateLineOffsetY = (height?: number, stroke?: number) =>
+    height && stroke ? `${height / 2 - stroke / 2}px` : "0px";
 
-  function toggleMenu() {
-    isOpen
-      ? spring.start({
-          rotate: "45deg",
-          y: calculateLineOffsetY(ref?.current?.clientHeight, strokeWidth),
-          opacity: 0,
-        })
-      : spring.start({ rotate: "0deg", y: "0px", opacity: 1 });
+  const toggleMenu = () => {
+    spring.start({
+      rotate: isOpen ? "45deg" : "0deg",
+      y: isOpen
+        ? calculateLineOffsetY(ref.current?.clientHeight, strokeWidth)
+        : "0px",
+      opacity: isOpen ? 0 : 1,
+    });
     toggleIsOpen();
-  }
+  };
 
   return (
     <Container onClick={toggleMenu} size={size} stroke={strokeWidth}>
       <LineContainer ref={ref}>
-        <Line background={`white`} style={{ rotate, y }} stroke={strokeWidth} />
-        <Line background={`white`} style={{ opacity }} stroke={strokeWidth} />
-        <Line
-          background={`white`}
-          style={{
-            rotate: rotate.to((rotate) => `-${rotate}`),
-            y: y.to((y) => `-${y}`),
-          }}
-          stroke={strokeWidth}
-        />
+        {[
+          { style: { rotate, y } },
+          { style: { opacity } },
+          {
+            style: {
+              rotate: rotate.to((r) => `-${r}`),
+              y: y.to((v) => `-${v}`),
+            },
+          },
+        ].map((props, index) => (
+          <Line
+            key={index}
+            background="white"
+            stroke={strokeWidth}
+            {...props}
+          />
+        ))}
       </LineContainer>
     </Container>
   );
 }
-const Container = styled.button`
-  height: ${(props) => props.size}px;
-  width: ${(props) => props.size}px;
+
+const springConfig = {
+  rotate: "0deg",
+  y: "0px",
+  opacity: 1,
+  config: config.stiff,
+};
+
+const Container = styled.button<{ size: number; stroke: number }>`
+  height: ${({ size }) => size}px;
+  width: ${({ size }) => size}px;
   border-radius: 50%;
-  border: ${(props) => props.stroke}px solid white;
+  border: ${({ stroke }) => stroke}px solid white;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  background: black;
   cursor: pointer;
   padding: 0;
-  background: black;
   &:focus {
     outline: 3px solid deeppink;
   }
@@ -73,8 +87,8 @@ const LineContainer = styled.div`
   justify-content: space-between;
 `;
 
-const Line = styled(animated.div)`
-  height: ${(props) => props.stroke}px;
-  background: ${(props) => props.background};
+const Line = styled(animated.div)<{ background: string; stroke: number }>`
+  height: ${({ stroke }) => stroke}px;
+  background: ${({ background }) => background};
   border-radius: 50px;
 `;
